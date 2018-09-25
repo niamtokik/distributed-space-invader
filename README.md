@@ -35,6 +35,32 @@ project will introduce
  * rebar3: Erlang packager 
  * Distributed Erlang
 
+```
+         [bert datastructure]                      [accepted connection]
+  ______/                __________     __________/    _______
+ |      |               |          |   |          |   |       |
+ | game |--[tcp/7777]-->| listener |-->| acceptor |-->| relay |--//
+ |______|               |__________|   |__________|   |_______|
+                        /                             /
+    [tcp socket handler]                             /
+                              [message relay process]
+
+
+
+             [distributed erlang]
+     _______/    _______     __________                  ______
+    (       )   |       |   |          |                |      |
+ --( cluster )->| relay |-->| acceptor |---[tcp/7777]-->| game |
+    (_______)   |_______|   |__________|                |______|
+        |                              \
+        .                               [send ETF flow]
+     ___.___
+    :       :
+    : relay :
+    :_______:
+    
+```
+
 Here the detailled steps:
 
 1. Ensure your have all required Erlang tools on your system
@@ -92,14 +118,22 @@ Here the detailled steps:
    project, but, if you are interested, you can take a look at ranch,
    this application manage a pool of tcp acceptor, mainly used in
    cowboy http server). So, we'll create a file named
-   `src/spaceinvader_listener.erl`.
+   `src/spaceinvader_listener.erl`. This process
+   
+   * listen a defined tcp port localy (7777 in our case)
+   * spawn a new acceptor when a connection is accepted
+   * keep state of our connection
    
    ```
    ```
    
    And `src/spaceinvader_acceptor.erl` for our acceptor side.
    
+   * accept messages from the accepted socket
+   * route messages
+   
    ```
+   
    ```
    
    We will also use Distributed Erlang feature, we should enable it in
