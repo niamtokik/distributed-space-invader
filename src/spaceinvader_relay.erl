@@ -11,8 +11,7 @@ stop() ->
 init(_Args) ->
     {ok, []}.
 
-handle_cast(Message, State) ->
-    [ gen_server:cast({?MODULE, Node}, { erlang:node(), Message }) || Node <- erlang:nodes() ],
+handle_cast({Node, Message}, State) ->
     {noreply, State}.
 
 handle_call(Message, From, State) ->
@@ -24,3 +23,5 @@ handle_info(Message, State) ->
 terminate(Reason, State) ->
     ok.
     
+t(Message) ->
+    [ gen_server:cast({?MODULE, Node}, { erlang:node(), Message }) || Node <- erlang:nodes() ].

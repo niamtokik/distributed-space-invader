@@ -30,10 +30,11 @@ when you install it, Erlang give you lot of integrated tools to do lot
 of things without installing external modules or libraries. This
 project will introduce
 
- * Erlang syntax
- * erl: Erlang REPL
- * rebar3: Erlang packager 
- * Distributed Erlang
+ * Concise introduction to Erlang syntax
+ * Live testing with Erlang REPL
+ * Simple rebar3 use case
+ * Small introduction to Distributed Erlang
+ * Small introduction to OTP
 
 ```
          [bert datastructure]                      [accepted connection]
@@ -61,7 +62,7 @@ project will introduce
     
 ```
 
-Here the detailled steps:
+Here the detailed steps:
 
 1. Ensure your have all required Erlang tools on your system
 

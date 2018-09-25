@@ -30,4 +30,3 @@ acceptor(Socket) ->
 	_Else -> io:format("~p~n", [_Else]),
 		 acceptor(Socket)
     end.
-    
