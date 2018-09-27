@@ -1,9 +1,10 @@
 %%%-------------------------------------------------------------------
-%%% Usually, an _*app.erl file will contain all code to create and
-%%% start an application manually. This convention comes from OTP
-%%% framework. Normally, the simple application is to start only the
-%%% main application supervisor and return the name of the registered
-%%% application (if it exist).
+%%% @doc Usually, an _*app.erl file will contain all code to
+%%%      create and start an application manually. This convention
+%%%      comes from OTP framework. Normally, the simple application is
+%%%      to start only the main application supervisor and return the
+%%%      name of the registered application (if it exist).  
+%%% @end
 %%%
 %%% More information available here:
 %%%   http://erlang.org/doc/design_principles/applications.html
@@ -17,8 +18,9 @@
 -export([stop/1]).
 
 %%--------------------------------------------------------------------
-%% start the application. This function is a callback from
-%% application OTP behavior:
+%% @doc start the application. This function is a callback from
+%%      application OTP behavior:
+%% @end
 %%
 %% More information here:
 %%   http://erlang.org/doc/apps/kernel/application.html#Module:start-2
@@ -35,8 +37,9 @@ start(_StartType, _StartArgs) ->
     spaceinvader_sup:start_link().
 
 %%--------------------------------------------------------------------
-%% stop our running application. This function is a callback from
-%% OTP application behavior:
+%% @doc stop our running application. This function is a callback from
+%%      OTP application behavior:
+%% @end
 %%
 %% More information here:
 %%   http://erlang.org/doc/apps/kernel/application.html#Module:stop-1
