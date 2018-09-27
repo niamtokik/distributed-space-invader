@@ -1,16 +1,18 @@
 %%%-------------------------------------------------------------------
-%%% spaceinvader_listener is our TCP listener, listening by default on
-%%% TCP/7777 port. It can be started manually by calling start/0,
-%%% start/1 or start/2 functions. This code doesn't follow OTP by
-%%% design (its an example).
+%%% @doc spaceinvader_listener is our TCP listener, listening by
+%%%      default on TCP/7777 port. It can be started manually by
+%%%      calling start/0, start/1 or start/2 functions. This code
+%%%      doesn't follow OTP by design (its an example).  
+%%% @end
 %%%-------------------------------------------------------------------
 -module(spaceinvader_listener).
 -export([start/0, start/1, start/2]).
 -export([start_link/0, start_link/1, start_link/2]).
 
 %%--------------------------------------------------------------------
-%% start/0, start/1 and start/2 functions create a new listener
-%% process by default listening on port TCP/7777.
+%% @doc start/0, start/1 and start/2 functions create a new listener
+%%      process by default listening on port TCP/7777.
+%% @end
 %%--------------------------------------------------------------------
 -spec start() -> {ok, pid()}.
 start() ->
@@ -25,8 +27,9 @@ start(Port, Args) ->
     {ok, spawn(fun() -> init(Port, Args) end)}.
 
 %%--------------------------------------------------------------------
-%% start/0, start/1 and start/2 functions create a new listener
-%% process by default listening on port TCP/7777.
+%% @doc start/0, start/1 and start/2 functions create a new listener
+%%      process by default listening on port TCP/7777.
+%% @end
 %%--------------------------------------------------------------------
 -spec start_link() -> {ok, pid()}.
 start_link() ->
@@ -41,8 +44,9 @@ start_link(Port, Args) ->
     {ok, spawn_link(fun() -> init(Port, Args) end)}.
 
 %%--------------------------------------------------------------------
-%% init/2 will create our listening socket with gen_tcp:listen/2
-%% function on port TCP/7777 by default.
+%% @doc init/2 will create our listening socket with gen_tcp:listen/2
+%%      function on port TCP/7777 by default.
+%% @end
 %%
 %% More information here:
 %%   http://erlang.org/doc/man/gen_tcp.html#listen-2
@@ -53,11 +57,12 @@ init(Port, Args) ->
     loop(Socket).
 
 %%--------------------------------------------------------------------
-%% loop/1 function is our main loop. When a connection arrives from
-%% the outside world, our code will automatically accept it and spawn
-%% a new acceptor process with the new opened port (accepted socket).
-%% This code doesn't catch kind of exception, and should be considered
-%% as an example.
+%% @doc loop/1 function is our main loop. When a connection
+%%      arrives from the outside world, our code will automatically
+%%      accept it and spawn a new acceptor process with the new opened
+%%      port (accepted socket).  This code doesn't catch kind of
+%%      exception, and should be considered as an example.
+%% @end
 %%
 %% More information here:
 %%   http://erlang.org/doc/man/gen_tcp.html#accept-1
@@ -70,7 +75,8 @@ loop(Socket) ->
     loop(Socket).
 
 %%--------------------------------------------------------------------
-%% acceptor/1 is dedicated to spawn an acceptor process.
+%% @doc acceptor/1 is dedicated to spawn an acceptor process.
+%% @end
 %%--------------------------------------------------------------------
 -spec acceptor(Socket :: port()) -> {ok, pid()}.
 acceptor(Socket) ->

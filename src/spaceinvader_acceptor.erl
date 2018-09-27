@@ -1,18 +1,21 @@
 %%%-------------------------------------------------------------------
-%%% spaceinvader_acceptor is our main tcp acceptor module. This one
-%%% will got the new accepted socket and do all routing an processing.
-%%% This code, like spaceinvader_listener, doesn't follow OTP
-%%% principle, in this case, this code can't be supervised as it by
-%%% any standard OTP supervisor.
+%%% @doc spaceinvader_acceptor is our main tcp acceptor
+%%%      module. This one will got the new accepted socket and do all
+%%%      routing an processing.  This code, like
+%%%      spaceinvader_listener, doesn't follow OTP principle, in this
+%%%      case, this code can't be supervised as it by any standard OTP
+%%%      supervisor.
+%%% @end
 %%%-------------------------------------------------------------------
 -module(spaceinvader_acceptor).
 -export([init/1]).
 
 %%--------------------------------------------------------------------
-%% init/1 get a socket from spaceinvader_listener loop. By default
-%% this socket is directly connected to our listener process, its why
-%% we need to explicitely connect this new acceptor process to the
-%% socket passed in argument.
+%% @doc init/1 get a socket from spaceinvader_listener loop. By
+%%      default this socket is directly connected to our listener
+%%      process, its why we need to explicitely connect this new
+%%      acceptor process to the socket passed in argument.
+%% @end
 %%--------------------------------------------------------------------
 -spec init(Socket :: port()) -> none().
 init(Socket) ->
@@ -20,9 +23,10 @@ init(Socket) ->
     loop(Socket).
 
 %%--------------------------------------------------------------------
-%% loop/1 is our main loop, containing all information about our
-%% routing TCP messages and actions to do.
-%% --------------------------------------------------------------------
+%% @doc loop/1 is our main loop, containing all information about our
+%%      routing TCP messages and actions to do.
+%% @end
+%%--------------------------------------------------------------------
 -spec loop(Socket :: port()) -> none().
 loop(Socket) ->
     receive
@@ -39,16 +43,18 @@ loop(Socket) ->
     end.
 
 %%--------------------------------------------------------------------
-%% message/1 craft a message to send to other nodes
+%% @doc message/1 craft a message to send to other nodes
+%% @end
 %%--------------------------------------------------------------------
 -spec message(Message :: term()) -> tuple().
 message(Message) ->
     {self(), node(), Message}.
 
 %%--------------------------------------------------------------------
-%% send_message/2 will send a message to a specific node. This node
-%% must have a registered process named spaceinvader_relay, if not,
-%% message is lost in the wild.
+%% @doc send_message/2 will send a message to a specific
+%%      node. This node must have a registered process named
+%%      spaceinvader_relay, if not, message is lost in the wild.
+%% @end
 %%--------------------------------------------------------------------
 -spec send_message(Node :: node(), Message :: term()) -> ok.
 send_message(Node, Message) ->
@@ -56,8 +62,9 @@ send_message(Node, Message) ->
     gen_server:cast({spaceinvader_relay, Node}, Data).
 
 %%--------------------------------------------------------------------
-%% forward/1 is a function helper to send a message to all connected
-%% nodes.
+%% @doc forward/1 is a function helper to send a message to all
+%%      connected nodes.  
+%% @end
 %%--------------------------------------------------------------------
 -spec forward(Message :: term()) -> list().
 forward(Message) ->

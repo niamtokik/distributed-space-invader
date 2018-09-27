@@ -1,10 +1,11 @@
 %%%--------------------------------------------------------------------
-%%% Usually, all *_sup.erl files are supervisors based on OTP
-%%% supervisor behavior. A supervisor is a specific process
-%%% responsible to monitor, and supervise one or more processes. If a
-%%% process die in an unexpected way, the supervisor can restart it
-%%% and do some other actions.
-%%%
+%%% @doc Usually, all *_sup.erl files are supervisors based on
+%%%      OTP supervisor behavior. A supervisor is a specific process
+%%%      responsible to monitor, and supervise one or more
+%%%      processes. If a process die in an unexpected way, the
+%%%      supervisor can restart it and do some other actions.  
+%%% @end
+%%% 
 %%% More information available here:
 %%%   http://erlang.org/doc/design_principles/sup_princ.html
 %%%--------------------------------------------------------------------
@@ -18,10 +19,11 @@
 -define(SERVER, ?MODULE).
 
 %%--------------------------------------------------------------------
-%% start_link function is an helper function and can refer to two
-%% other function, supervisor:start_link/2 and
-%% supervisor:start_link/3. This is the usual function to start a
-%% supervisor and will return the supervisor pid.
+%% @doc start_link function is an helper function and can refer
+%%      to two other function, supervisor:start_link/2 and
+%%      supervisor:start_link/3. This is the usual function to start a
+%%      supervisor and will return the supervisor pid.
+%% @end
 %%
 %% More information here:
 %%   http://erlang.org/doc/man/supervisor.html#start_link-2
@@ -37,9 +39,11 @@ start_link() ->
     supervisor:start_link({local, ?SERVER}, ?MODULE, []).
 
 %%--------------------------------------------------------------------
-%% Init function is a callback used by supervisor behavior. This
-%% function will initialize the supervisor with required information
-%% (e.g. processes names, restart rules and many other variables).
+%% @doc Init function is a callback used by supervisor
+%%      behavior. This function will initialize the supervisor with
+%%      required information (e.g. processes names, restart rules and
+%%      many other variables).
+%% @end
 %%
 %% More information here:
 %%   http://erlang.org/doc/man/supervisor.html#Module:init-1
@@ -52,9 +56,10 @@ init(_Args) ->
     }.
 
 %%--------------------------------------------------------------------
-%% sup_flags will initialize the behaviour of the supervisor with the
-%% restart intensity based on the period of crash but also the kind of
-%% strategy (method) to restart a child.
+%% @doc sup_flags will initialize the behaviour of the supervisor
+%%      with the restart intensity based on the period of crash but
+%%      also the kind of strategy (method) to restart a child.
+%% @end
 %%
 %% More information here:
 %%   http://erlang.org/doc/man/supervisor.html#type-sup_flags
@@ -67,10 +72,12 @@ sup_flags() ->
      }.
 
 %%--------------------------------------------------------------------
-%% A supervisor need a list of worker to supervise, except for the
-%% simple_one_for_one method (this one can spawn automatically and on
-%% demand one type of worker/supervisor). In our case, actually, we
-%% only want to start one worker: our spaceinvader_listener.
+%% @doc A supervisor need a list of worker to supervise, except
+%%      for the simple_one_for_one method (this one can spawn
+%%      automatically and on demand one type of worker/supervisor). In
+%%      our case, actually, we only want to start one worker: our
+%%      spaceinvader_listener.
+%% @end
 %%
 %% More information here:
 %%   http://erlang.org/doc/man/supervisor.html#type-child_spec
@@ -82,10 +89,12 @@ workers() ->
     ].
 
 %%--------------------------------------------------------------------
-%% spaceinvader_listener refer to our main worker, here, the
-%% spaceinvader_listener module. This one will be monitored by this
-%% supervisor, if something goes wrong, it will automatically restart
-%% it.
+%% @doc spaceinvader_listener refer to our main worker, here, the
+%%      spaceinvader_listener module. This one will be monitored by this
+%%      supervisor, if something goes wrong, it will automatically restart
+%%      it.  
+%% @end
+%% 
 %% More information here:
 %%   http://erlang.org/doc/man/supervisor.html#type-child_spec
 %%--------------------------------------------------------------------
@@ -99,9 +108,10 @@ spaceinvader_listener() ->
      }.
 
 %%--------------------------------------------------------------------
-%% spaceinvader_relay/0 is another worker, based on our
-%% spaceinvader_relay. This one will get messages from outside world
-%% and send them to acceptor.
+%% @doc spaceinvader_relay/0 is another worker, based on our
+%%      spaceinvader_relay. This one will get messages from outside
+%%      world and send them to acceptor.
+%% @end
 %%--------------------------------------------------------------------
 -spec spaceinvader_relay() -> map().
 spaceinvader_relay() ->

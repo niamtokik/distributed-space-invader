@@ -1,0 +1,43 @@
+@author Mathieu Kerjouan
+@copyright 2018 Mathieu Kerjouan
+@version 0.0.1
+@title Distributed Space Invader Message Forwarder
+
+@doc This code was created has a simple project to show some important
+     Erlang feature like:
+<ul>
+     <li> Message passing </li>
+     <li> Process spawning </li>
+     <li> Distributed Erlang </li>
+     <li> Introduce OTP </li>
+     <li> and many other things... </li>
+</ul>
+
+Here a simple map of all processes </br>
+
+<pre>
+         [bert datastructure]                      [accepted connection]
+  ______/                __________     __________/    _______
+ |      |               |          |   |          |   |       |
+ | game |--[tcp/7777]-->| listener |-->| acceptor |-->| relay |--//
+ |______|               |__________|   |__________|   |_______|
+                        /                             /
+    [tcp socket handler]                             /
+                              [message relay process]
+
+
+
+             [distributed erlang]
+     _______/    _______     __________                  ______
+    (       )   |       |   |          |                |      |
+ --( cluster )->| relay |-->| acceptor |---[tcp/7777]-->| game |
+    (_______)   |_______|   |__________|                |______|
+        |                              \
+        .                               [send ETF flow]
+     ___.___
+    :       :
+    : relay :
+    :_______:
+    
+</pre>
+@end
