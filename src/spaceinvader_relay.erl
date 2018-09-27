@@ -66,6 +66,10 @@ init(_Args) ->
 %%   http://erlang.org/doc/man/gen_server.html#Module:handle_cast-2
 %%--------------------------------------------------------------------
 handle_cast({Node, Message}, State) ->
+    io:format("received message ~p from ~p~n", [Message, Node]),
+    {noreply, State};
+handle_cast(_Else, State) ->
+    io:format("received: ~p~n", [_Else]),
     {noreply, State}.
 
 %%--------------------------------------------------------------------
@@ -76,6 +80,7 @@ handle_cast({Node, Message}, State) ->
 %%   http://erlang.org/doc/man/gen_server.html#Module:handle_call-3
 %%--------------------------------------------------------------------
 handle_call(Message, From, State) ->
+    io:format("received message ~p from ~p~n", [Message, From]),
     {reply, ok, State}.
 
 %%--------------------------------------------------------------------
@@ -88,6 +93,7 @@ handle_call(Message, From, State) ->
 %%   http://erlang.org/doc/man/gen_server.html#Module:handle_info-2
 %%--------------------------------------------------------------------
 handle_info(Message, State) ->
+    io:format("received ~p~n", [Message]),
     {noreply, State}.
 
 %%--------------------------------------------------------------------
@@ -97,6 +103,6 @@ handle_info(Message, State) ->
 %% More information here:
 %%   http://erlang.org/doc/man/gen_server.html#Module:terminate-2
 %%--------------------------------------------------------------------
-terminate(Reason, State) ->
+terminate(_Reason, _State) ->
     ok.
 

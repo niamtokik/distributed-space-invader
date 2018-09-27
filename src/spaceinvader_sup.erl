@@ -75,7 +75,8 @@ sup_flags() ->
 %%--------------------------------------------------------------------
 -spec workers() -> [map(), ...].
 workers() ->
-    [spaceinvader_listener()].
+    [spaceinvader_listener()
+    ,spaceinvader_relay()].
 
 %%--------------------------------------------------------------------
 %% spaceinvader_listener refer to our main worker, here, the
@@ -93,4 +94,16 @@ spaceinvader_listener() ->
      , shutdown => brutal_kill
      , type => worker
      }.
-    
+
+%%--------------------------------------------------------------------
+%% spaceinvader_relay/0 is another worker, based on our
+%% spaceinvader_relay. This one will get messages from outside world
+%% and send them to acceptor.
+%%--------------------------------------------------------------------
+-spec spaceinvader_relay() -> map().
+spaceinvader_relay() ->
+    #{ id => spaceinvader_relay
+     , start => {spaceinvader_relay, start, []}
+     , restart => permanent
+     , type => worker
+     }.
