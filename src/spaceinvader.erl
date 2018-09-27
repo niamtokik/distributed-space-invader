@@ -1,5 +1,5 @@
 %%%-------------------------------------------------------------------
-%%% @doc main module for make this application as script
+%%% @doc main module for make this application as script.
 %%% @end
 %%%-------------------------------------------------------------------
 -module(spaceinvader).
@@ -10,6 +10,7 @@
 %%      parse them and start our application properly.
 %% @end
 %%--------------------------------------------------------------------
+-spec main(list()) -> none().
 main(_Args) ->
     io:format("start spaceinvader application...~n"),
     application:start(spaceinvader),
@@ -19,10 +20,10 @@ main(_Args) ->
 %% @doc just a hack function to stay in invite process, used for
 %%      long living process with escript. If you don't want to do
 %%      this kind of thing, you should start erlang vm in another
-%%      way... ;)
+%%      way...
 %% @end
 %%--------------------------------------------------------------------
+-spec loop() -> none().
 loop() ->
     receive _ -> loop()
     end.
-            
