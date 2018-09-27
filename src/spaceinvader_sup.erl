@@ -45,8 +45,10 @@ start_link() ->
 %%   http://erlang.org/doc/man/supervisor.html#Module:init-1
 %%--------------------------------------------------------------------
 init(_Args) ->
-    {ok, { sup_flags()
-         , workers() } 
+    {ok
+    ,{ sup_flags()
+     , workers() 
+     } 
     }.
 
 %%--------------------------------------------------------------------
@@ -59,9 +61,9 @@ init(_Args) ->
 %%--------------------------------------------------------------------
 -spec sup_flags() -> map().
 sup_flags() ->
-    #{ strategy => one_for_all 
-     , intensity => 0
-     , period => 1 
+    #{ strategy => one_for_one
+     , intensity => 1
+     , period => 1
      }.
 
 %%--------------------------------------------------------------------
@@ -76,7 +78,8 @@ sup_flags() ->
 -spec workers() -> [map(), ...].
 workers() ->
     [spaceinvader_listener()
-    ,spaceinvader_relay()].
+    ,spaceinvader_relay()
+    ].
 
 %%--------------------------------------------------------------------
 %% spaceinvader_listener refer to our main worker, here, the
@@ -89,7 +92,7 @@ workers() ->
 -spec spaceinvader_listener() -> map().
 spaceinvader_listener() ->
     #{ id => spaceinvader_listener
-     , start => {spaceinvader_listener, start, []}
+     , start => {spaceinvader_listener, start_link, []}
      , restart => permanent
      , shutdown => brutal_kill
      , type => worker
@@ -103,7 +106,7 @@ spaceinvader_listener() ->
 -spec spaceinvader_relay() -> map().
 spaceinvader_relay() ->
     #{ id => spaceinvader_relay
-     , start => {spaceinvader_relay, start, []}
+     , start => {spaceinvader_relay, start_link, []}
      , restart => permanent
      , type => worker
      }.

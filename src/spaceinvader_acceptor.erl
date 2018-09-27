@@ -39,13 +39,21 @@ loop(Socket) ->
     end.
 
 %%--------------------------------------------------------------------
+%% message/1 craft a message to send to other nodes
+%%--------------------------------------------------------------------
+-spec message(Message :: term()) -> tuple().
+message(Message) ->
+    {self(), node(), Message}.
+
+%%--------------------------------------------------------------------
 %% send_message/2 will send a message to a specific node. This node
 %% must have a registered process named spaceinvader_relay, if not,
 %% message is lost in the wild.
 %%--------------------------------------------------------------------
 -spec send_message(Node :: node(), Message :: term()) -> ok.
 send_message(Node, Message) ->
-    gen_server:cast({spaceinvader_relay, Node}, { node(), Message }).
+    Data = message(Message),
+    gen_server:cast({spaceinvader_relay, Node}, Data).
 
 %%--------------------------------------------------------------------
 %% forward/1 is a function helper to send a message to all connected

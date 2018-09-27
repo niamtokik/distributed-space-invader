@@ -10,13 +10,16 @@
 %%%-------------------------------------------------------------------
 -module(spaceinvader_relay).
 -behaviour(gen_server).
--compile(export_all).
+-export([start/0, start_link/0, stop/0]).
+-export([init/1, terminate/2, code_change/3]).
+-export([handle_call/3, handle_cast/2, handle_info/2]).
 
 %%--------------------------------------------------------------------
 %% More information here:
 %%   http://erlang.org/doc/man/gen_server.html#start-3
 %%   http://erlang.org/doc/man/gen_server.html#start-4
 %%--------------------------------------------------------------------
+-spec start() -> {ok, pid()}.
 start() ->
     gen_server:start({local, ?MODULE}, ?MODULE, [], []).
 
@@ -25,6 +28,7 @@ start() ->
 %%   http://erlang.org/doc/man/gen_server.html#start_link-3
 %%   http://erlang.org/doc/man/gen_server.html#start_link-4
 %%--------------------------------------------------------------------
+-spec start_link() -> {ok, pid()}.
 start_link() ->
     gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
@@ -33,6 +37,7 @@ start_link() ->
 %%   http://erlang.org/doc/man/gen_server.html#stop-1
 %%   http://erlang.org/doc/man/gen_server.html#stop-3
 %%--------------------------------------------------------------------
+-spec stop() -> ok.
 stop() ->
     gen_server:stop(?MODULE).
 
@@ -53,8 +58,12 @@ code_change(_OldVsn, _State, _Extra) ->
 %% More information here:
 %%   http://erlang.org/doc/man/gen_server.html#Module:init-1
 %%--------------------------------------------------------------------
+-spec init(term()) -> {ok, map()}.
 init(_Args) ->
-    {ok, []}.
+    {ok, #{ forwarded => 0 
+          , received => 0 
+          , registered => [] }
+    }.
 
 %%--------------------------------------------------------------------
 %% handle_cast/2 is a callback. This function will receive cast
@@ -65,11 +74,13 @@ init(_Args) ->
 %% More information here:
 %%   http://erlang.org/doc/man/gen_server.html#Module:handle_cast-2
 %%--------------------------------------------------------------------
-handle_cast({Node, Message}, State) ->
+-spec handle_cast({pid(), atom(), term()}, map()) -> {noreply, map()};
+                 (term(), map()) -> {noreply, map()}.
+handle_cast({_Pid, Node, Message}, State) ->
     io:format("received message ~p from ~p~n", [Message, Node]),
     {noreply, State};
 handle_cast(_Else, State) ->
-    io:format("received: ~p~n", [_Else]),
+    io:format("handle_cast: received ~p~n", [_Else]),
     {noreply, State}.
 
 %%--------------------------------------------------------------------
@@ -79,8 +90,18 @@ handle_cast(_Else, State) ->
 %% More information here:
 %%   http://erlang.org/doc/man/gen_server.html#Module:handle_call-3
 %%--------------------------------------------------------------------
-handle_call(Message, From, State) ->
-    io:format("received message ~p from ~p~n", [Message, From]),
+-spec handle_call({atom(), atom()}, pid(), map()) 
+                 -> {reply, {ok, integer()}, map()};
+                 (term(), pid(), map()) 
+                 -> {reply, ok, map()}.
+handle_call({get, forwarded}, _From, State) ->
+    #{ forwarded := Forwarded} = State,
+    {reply, {ok, Forwarded}, State};
+handle_call({get, received}, _From, State) ->
+    #{ received := Received } = State,
+    {reply, {ok, Received}, State};
+handle_call(Message, _From, State) ->
+    io:format("handle_call: received message ~p from ~p~n", [Message, _From]),
     {reply, ok, State}.
 
 %%--------------------------------------------------------------------
@@ -92,8 +113,9 @@ handle_call(Message, From, State) ->
 %% More information here:
 %%   http://erlang.org/doc/man/gen_server.html#Module:handle_info-2
 %%--------------------------------------------------------------------
+-spec handle_info(term(), map()) -> {noreply, map()}.
 handle_info(Message, State) ->
-    io:format("received ~p~n", [Message]),
+    io:format("handle_info: received ~p~n", [Message]),
     {noreply, State}.
 
 %%--------------------------------------------------------------------
@@ -103,6 +125,6 @@ handle_info(Message, State) ->
 %% More information here:
 %%   http://erlang.org/doc/man/gen_server.html#Module:terminate-2
 %%--------------------------------------------------------------------
+-spec terminate(term(), map()) -> ok.
 terminate(_Reason, _State) ->
     ok.
-
