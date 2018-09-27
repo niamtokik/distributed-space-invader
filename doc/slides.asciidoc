@@ -17,51 +17,79 @@ All Rights Reserved
 == What is Erlang?
 
  * High Level language
+ 
  * Functional
+ 
  * Distributed
- * Typed
+ 
+ * Dynamic and strong typing
+ 
  * Stable
+ 
  * Portable
 
 == Why Erlang?
 
  * Distributed Environment
+ 
  * High Available systems
+ 
  * Interoperability
+ 
  * OTP Framework
+ 
  * Quick PoC
 
 == Who are actually using Erlang?
 
- * Google
+ * Cisco
+
+ * IBM
+ 
  * Facebook
+ 
  * Whatsapp
+
  * Ericsson
+ 
  * Amazon
- * and probably more than you think...
+ 
+ * and probably https://erlang-companies.org/[more than you think]...
 
 == Some open source projects?
 
  * https://www.rabbitmq.com/[RabbitMQ]
+ 
  * https://www.ejabberd.im[eJabberd]
+ 
  * http://basho.com/products/[Riak]
+ 
  * https://couchdb.apache.org/[CouchDB]
+ 
  * http://www.wings3d.com/[Wings3D]
+
  * and many others...
 
 == How to learn Erlang?
 
  * Read books
+ 
  * Read documentation
+ 
  * Talk with the community
+ 
  * Watch conferences
+ 
  * Read code
 
 == How to use Erlang?
 
- * By using Erlang/OTP core
- * By using external modules
- * By using Elixir or LFE
+ * By using http://erlang.org/doc/[Erlang/OTP] core
+ 
+ * By using external modules/libraries (see https://hex.pm/[hex])
+ 
+ * By using https://elixir-lang.org/[Elixir] or http://lfe.io/[Lisp
+   Flavoured erlang (LFE)].
 
 == Concept: Actor model
 
