@@ -195,9 +195,10 @@ Tusand tak alle!
 
 Holde kontakten:
 
- * Twitter: https://twitter.com/niamtokik[@niamkik]
+ * Twitter: https://twitter.com/niamtokik[@niamtokik]
  * Twitch: https://twitch.tv/archemisc[@archemisc]
- * github: https://github.com/niamtokik[@niamtokik]
+ * Github: https://github.com/niamtokik[@niamtokik]
+ * IRC: irc://irc.freenode.org[@Niamkik]
 
 Vi ses! :)
  
