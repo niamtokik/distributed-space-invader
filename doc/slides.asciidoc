@@ -1,0 +1,211 @@
+//////////////////////////////////////////////////////////////////////
+Copyright 2018 by Mathieu Kerjouan
+All Rights Reserved
+//////////////////////////////////////////////////////////////////////
+
+= Erlang Coding Dojo
+:author:    Mathieu Kerjouan
+:twitter:   https://twitter.com/niamtokik
+:backend:   slidy
+:max-width: 50em
+:icons:
+:iconsdir: /usr/local/etc/asciidoc/images/icons
+:images:
+:imagesdir: ./img/
+:copyright: Mathieu Kerjouan
+
+== What is Erlang?
+
+ * High Level language
+ * Functional
+ * Distributed
+ * Typed
+ * Stable
+ * Portable
+
+== Why Erlang?
+
+ * Distributed Environment
+ * High Available systems
+ * Interoperability
+ * OTP Framework
+ * Quick PoC
+
+== Who are actually using Erlang?
+
+ * Google
+ * Facebook
+ * Whatsapp
+ * Ericsson
+ * Amazon
+ * and probably more than you think...
+
+== Some open source projects?
+
+ * https://www.rabbitmq.com/[RabbitMQ]
+ * https://www.ejabberd.im[eJabberd]
+ * http://basho.com/products/[Riak]
+ * https://couchdb.apache.org/[CouchDB]
+ * http://www.wings3d.com/[Wings3D]
+ * and many others...
+
+== How to learn Erlang?
+
+ * Read books
+ * Read documentation
+ * Talk with the community
+ * Watch conferences
+ * Read code
+
+== How to use Erlang?
+
+ * By using Erlang/OTP core
+ * By using external modules
+ * By using Elixir or LFE
+
+== Concept: Actor model
+
+ * Processes as Finite State Machine
+ * Message passing between processes
+ * One way to communicate: queue/mailbox
+ * BEAM world and Real world isolation
+
+== A bit of code... Module creation.
+
+[erlang]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-module(mymodule).   % ①
+-compile(native).    % ②
+-export([start/0]).  % ③
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+① Erlang module name, mandatory, based on module filename.
+
+② Compiler http://erlang.org/doc/man/erlc.html[options and
+  arguments].
+
+③ Exported function (by default, no export)
+
+== A bit of code... Function definition.
+
+[erlang]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-spec start() -> {ok, pid()}.          % ④
+start() ->
+  io:format("start: ~p~n", [?MODULE]), % ⑤
+  Fun = fun loop/0,                    % ⑥
+  Pid = spawn(Fun),                    % ⑦
+  {ok, Pid}.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+④ Function type specification, used with
+  http://erlang.org/doc/apps/dialyzer/dialyzer_chapter.html[dialyzer]
+  and http://erlang.org/doc/man/typer.html[typer].
+
+⑤ http://erlang.org/doc/reference_manual/macros.html[Preprocessor
+  macro] starting with `?`
+
+⑥ Short
+  http://erlang.org/doc/programming_examples/funs.html#syntax-of-funs[lambda
+  function] notation equiv to: `fun() -> loop() end.`
+
+⑦ http://erlang.org/doc/man/erlang.html#spawn-1[Spawn] a new process,
+  store its pid in variable `Pid`
+
+== A bit of code... Recursive function.
+
+[erlang]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-spec loop() -> none().
+loop() ->
+  receive _Something ->                         % ⑧
+    io:format("received (~p): ~p~n", [self(),_Something]), 
+    loop()                                      % ⑨
+  end.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+⑧ Read mailbox/queue content with
+  http://erlang.org/doc/reference_manual/expressions.html#receive[`receive`]
+  statement, and store it in `_Something` variable.
+
+⑨ Recursive loop, our process will never stop.
+
+== Compile and Run
+
+.Compile our code with `erlc`, Erlang compiler and start REPL
+[sh]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+erlc mymodule.erl
+erl
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.Start our process and send messages.
+[erlang]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+{ok, Pid} = mymodule:start().
+Pid ! "mymessage".
+erlang:send(Pid, "mymessage2").
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+== Distributed Erlang
+
+.First node
+[erlang]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+net_kernel:start(['first', shortnames]).
+erlang:set_cookie(node(), test).
+{ok, Pid} = mymodule:start().
+erlang:register(mymodule, Pid).
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.Second node
+[erlang]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+net_kernel:start(['second', shortnames]).
+erlang:set_cookie(node(), test).
+net_kernel:connect('test2@yourhostname').
+nodes().
+[ { mymodule, Node } ! "mymessage" || Node <- nodes() ].
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+== Coding Dojo!
+
+. Use only http://erlang.org/doc[Erlang/OTP] core;
+
+. Create a TCP server with
+  http://erlang.org/doc/man/gen_tcp.html[gen_tcp]
+  (http://erlang.org/doc/man/gen_tcp.html#listen-2[listener] /
+  http://erlang.org/doc/man/gen_tcp.html#accept-1[acceptor]);
+
+. Create an Erlang cluster with
+  http://erlang.org/doc/reference_manual/distributed.html[Distributed
+  Erlang];
+
+. Forward messages from a player to other players with
+  http://erlang.org/doc/man/erlang.html#send-2[`erlang:send`];
+
+. Little introduction to OTP with
+  http://erlang.org/doc/man/gen_server.html[`gen_server`]
+
+. Have fun!
+
+== Thanks!
+
+Tusand tak alle!
+
+Holde kontakten:
+
+ * Twitter: https://twitter.com/niamtokik[@niamkik]
+ * Twitch: https://twitch.tv/archemisc[@archemisc]
+ * github: https://github.com/niamtokik[@niamtokik]
+
+Vi ses! :)
+ 
+== Resources
+
+ * http://www.erlang.org/[Erlang Official Website]
+ * http://erlang.org/doc/[Official Erlang Documentation]
+ * https://erldocs.com/[Alternative Erlang Documentation]
+ * https://www.youtube.com/channel/UCKrD_GYN3iDpG_uMmADPzJQ[Erlang Solution Channel]
+ * https://soundcloud.com/elixirfountain[Elixir Fountain Podcast]
+ * https://erlanger.slack.com/messages[Erlang Slack]
