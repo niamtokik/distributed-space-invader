@@ -16,12 +16,13 @@ server will forward them to all other notes.
 
     $ rebar3 escriptize
 
+## Generate documentation
+
+    $ rebar3 edoc
+
 ## Haskell Space Invader Client
 
  * https://github.com/lambda-rennes/space-invaders
-
-## Coding Dojo Tips and Tricks
-
 
 # Project history and steps
 
