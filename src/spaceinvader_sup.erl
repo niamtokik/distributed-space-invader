@@ -4,10 +4,11 @@
 %%%      responsible to monitor, and supervise one or more
 %%%      processes. If a process die in an unexpected way, the
 %%%      supervisor can restart it and do some other actions.  
-%%% @end
 %%% 
-%%% More information available here:
-%%%   http://erlang.org/doc/design_principles/sup_princ.html
+%%%      See also:
+%%%      <ul><li>[http://erlang.org/doc/design_principles/sup_princ.html]</li>
+%%%      </ul>
+%%% @end
 %%%--------------------------------------------------------------------
 -module(spaceinvader_sup).
 -behaviour(supervisor).
@@ -23,11 +24,12 @@
 %%      to two other function, supervisor:start_link/2 and
 %%      supervisor:start_link/3. This is the usual function to start a
 %%      supervisor and will return the supervisor pid.
-%% @end
 %%
-%% More information here:
-%%   http://erlang.org/doc/man/supervisor.html#start_link-2
-%%   http://erlang.org/doc/man/supervisor.html#start_link-3
+%%      See also:
+%%      <ul><li>[http://erlang.org/doc/man/supervisor.html#start_link-2]</li>
+%%          <li>[http://erlang.org/doc/man/supervisor.html#start_link-3]</li>
+%%      </ul>
+%% @end
 %%--------------------------------------------------------------------
 -spec start_link() 
                 -> {ok, pid()} | 
@@ -43,10 +45,11 @@ start_link() ->
 %%      behavior. This function will initialize the supervisor with
 %%      required information (e.g. processes names, restart rules and
 %%      many other variables).
-%% @end
 %%
-%% More information here:
-%%   http://erlang.org/doc/man/supervisor.html#Module:init-1
+%%      See also:
+%%      <ul><li>[http://erlang.org/doc/man/supervisor.html#Module:init-1]</li>
+%%      </ul>
+%% @end
 %%--------------------------------------------------------------------
 init(_Args) ->
     {ok
@@ -59,10 +62,11 @@ init(_Args) ->
 %% @doc sup_flags will initialize the behaviour of the supervisor
 %%      with the restart intensity based on the period of crash but
 %%      also the kind of strategy (method) to restart a child.
-%% @end
 %%
-%% More information here:
-%%   http://erlang.org/doc/man/supervisor.html#type-sup_flags
+%%      See also:
+%%      <ul><li>[http://erlang.org/doc/man/supervisor.html#type-sup_flags]</li>
+%%      </ul>
+%% @end
 %%--------------------------------------------------------------------
 -spec sup_flags() -> map().
 sup_flags() ->
@@ -77,10 +81,11 @@ sup_flags() ->
 %%      automatically and on demand one type of worker/supervisor). In
 %%      our case, actually, we only want to start one worker: our
 %%      spaceinvader_listener.
-%% @end
 %%
-%% More information here:
-%%   http://erlang.org/doc/man/supervisor.html#type-child_spec
+%%      See also:
+%%      <ul><li>[http://erlang.org/doc/man/supervisor.html#type-child_spec]</li>
+%%      </ul>
+%% @end
 %%--------------------------------------------------------------------
 -spec workers() -> [map(), ...].
 workers() ->
@@ -93,10 +98,11 @@ workers() ->
 %%      spaceinvader_listener module. This one will be monitored by this
 %%      supervisor, if something goes wrong, it will automatically restart
 %%      it.  
-%% @end
 %% 
-%% More information here:
-%%   http://erlang.org/doc/man/supervisor.html#type-child_spec
+%%      See also:
+%%      <ul><li>http://erlang.org/doc/man/supervisor.html#type-child_spec</li>
+%%      </ul>
+%% @end
 %%--------------------------------------------------------------------
 -spec spaceinvader_listener() -> map().
 spaceinvader_listener() ->

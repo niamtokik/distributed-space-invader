@@ -46,10 +46,11 @@ start_link(Port, Args) ->
 %%--------------------------------------------------------------------
 %% @doc init/2 will create our listening socket with gen_tcp:listen/2
 %%      function on port TCP/7777 by default.
-%% @end
 %%
-%% More information here:
-%%   http://erlang.org/doc/man/gen_tcp.html#listen-2
+%%      See also:
+%%      <ul><li>[http://erlang.org/doc/man/gen_tcp.html#listen-2]</li>
+%%      </ul>
+%% @end
 %%--------------------------------------------------------------------
 -spec init(Port :: integer(), Args :: term()) -> none().
 init(Port, Args) ->
@@ -62,10 +63,11 @@ init(Port, Args) ->
 %%      accept it and spawn a new acceptor process with the new opened
 %%      port (accepted socket).  This code doesn't catch kind of
 %%      exception, and should be considered as an example.
+%%      
+%%      See also:
+%%      <ul><li>[http://erlang.org/doc/man/gen_tcp.html#accept-1]</li>
+%%      </ul>
 %% @end
-%%
-%% More information here:
-%%   http://erlang.org/doc/man/gen_tcp.html#accept-1
 %%--------------------------------------------------------------------
 -spec loop(Socket :: port()) -> none().
 loop(Socket) ->
