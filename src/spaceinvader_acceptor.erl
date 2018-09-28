@@ -5,6 +5,11 @@
 %%%      spaceinvader_listener, doesn't follow OTP principle, in this
 %%%      case, this code can't be supervised as it by any standard OTP
 %%%      supervisor.
+%%%
+%%%      More information:
+%%%      <ul><li>[http://erlang.org/doc/man/gen_tcp.html#accept-1]</li>
+%%%          <li>[http://erlang.org/doc/man/gen_tcp.html#accept-2]</li>
+%%%      </ul>
 %%% @end
 %%%-------------------------------------------------------------------
 -module(spaceinvader_acceptor).
@@ -20,6 +25,7 @@
 -spec init(Socket :: port()) -> none().
 init(Socket) ->
     erlang:port_connect(Socket, self()),
+    spaceinvader_relay:register(self()),
     loop(Socket).
 
 %%--------------------------------------------------------------------
@@ -36,6 +42,7 @@ loop(Socket) ->
             loop(Socket);
         {tcp_closed, Port} ->
             gen_tcp:close(Socket),
+            spaceinvader_relay:unregister(self()),
             io:format("Close connection ~p from ~p~n", [Port, self()]);
         _Else -> io:format("~p~n", [_Else]),
                  forward(_Else),

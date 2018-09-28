@@ -1,5 +1,10 @@
 %%%-------------------------------------------------------------------
 %%% @doc main module for make this application as script.
+%%%
+%%%      More information:
+%%%      <ul><li>[http://erlang.org/doc/man/escript.html]</li>
+%%%          <li>[https://www.rebar3.org/docs/commands#section-escriptize]</li>
+%%%      </ul>
 %%% @end
 %%%-------------------------------------------------------------------
 -module(spaceinvader).

@@ -4,10 +4,11 @@
 %%%      comes from OTP framework. Normally, the simple application is
 %%%      to start only the main application supervisor and return the
 %%%      name of the registered application (if it exist).  
-%%% @end
 %%%
-%%% More information available here:
-%%%   http://erlang.org/doc/design_principles/applications.html
+%%%      More information available here:
+%%%      <ul><li>[http://erlang.org/doc/design_principles/applications.html]</li>
+%%%      </ul>
+%%% @end
 %%%-------------------------------------------------------------------
 -module(spaceinvader_app).
 -behaviour(application).
@@ -19,11 +20,12 @@
 
 %%--------------------------------------------------------------------
 %% @doc start the application. This function is a callback from
-%%      application OTP behavior:
-%% @end
+%%      application OTP behavior.
 %%
-%% More information here:
-%%   http://erlang.org/doc/apps/kernel/application.html#Module:start-2
+%%      More information:
+%%      <ul><li>[http://erlang.org/doc/apps/kernel/application.html#Module:start-2]</li>
+%%      </ul>
+%% @end
 %%--------------------------------------------------------------------
 -spec start(_StartType :: normal | {takeover, node()} | {failover, node()} 
            ,_StartArgs :: term()) 
@@ -37,12 +39,14 @@ start(_StartType, _StartArgs) ->
     spaceinvader_sup:start_link().
 
 %%--------------------------------------------------------------------
-%% @doc stop our running application. This function is a callback from
-%%      OTP application behavior:
-%% @end
+%% @doc Stop our running application. This function is a callback from
+%%      OTP application behavior.
 %%
-%% More information here:
-%%   http://erlang.org/doc/apps/kernel/application.html#Module:stop-1
+%%      More information here:
+%% 
+%%      <ul><li>http://erlang.org/doc/apps/kernel/application.html#Module:stop-1</li>
+%%      </ul>
+%% @end
 %%--------------------------------------------------------------------
 -spec stop(State :: term()) 
           -> ok.
