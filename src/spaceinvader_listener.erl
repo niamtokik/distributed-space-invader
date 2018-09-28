@@ -37,7 +37,7 @@ start_link() ->
 
 -spec start_link(Port :: integer()) -> {ok, pid()}.
 start_link(Port) ->
-    start_link(Port, [{port, 7777}]).
+    start_link(Port, [{port, 7777}, binary]).
 
 -spec start_link(Port :: integer(), Args :: term()) -> {ok, pid()}.
 start_link(Port, Args) ->

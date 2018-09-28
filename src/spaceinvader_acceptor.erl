@@ -36,18 +36,51 @@ init(Socket) ->
 -spec loop(Socket :: port()) -> none().
 loop(Socket) ->
     receive
-        {tcp, _Port, Message} ->
-            io:format("received message: ~p~n", [Message]),
-            forward(Message),
-            loop(Socket);
+        {tcp, Port, Message} ->
+            tcp(Socket, Port, Message);
         {tcp_closed, Port} ->
-            gen_tcp:close(Socket),
-            spaceinvader_relay:unregister(self()),
-            io:format("Close connection ~p from ~p~n", [Port, self()]);
+            tcp_closed(Socket, Port);
+        {message, Message} ->
+            from_relay(Socket, Message);
         _Else -> io:format("~p~n", [_Else]),
                  forward(_Else),
                  loop(Socket)
     end.
+
+%%--------------------------------------------------------------------
+%% @doc tcp/3 function will catch all standard tcp message.
+%% @end
+%%--------------------------------------------------------------------
+tcp(Socket, Port, Message) 
+  when is_port(Port) ->
+    io:format("received message: ~p~n", [Message]),
+    io:format("received message: ~p~n", [convert(Message)]),
+    forward(Message),
+    loop(Socket).
+
+%%--------------------------------------------------------------------
+%% @doc tcp_closed/2 will close the socket and unregister the process
+%%      on the relay.
+%% @end
+%%--------------------------------------------------------------------
+tcp_closed(Socket, Port) 
+  when is_port(Port) ->
+    gen_tcp:close(Socket),
+    spaceinvader_relay:unregister(self()),
+    io:format("Close connection ~p from ~p~n", [Port, self()]).
+
+%%--------------------------------------------------------------------
+%% @doc from_relay/2 will catch messages from the relay and send them
+%%      to the accepted socket.
+%% @end
+%%--------------------------------------------------------------------
+from_relay(Socket, Message) ->
+    Convert = erlang:term_to_binary(Message),
+    Size = erlang:bit_size(Convert),
+    Send = <<Size:32, Convert/bitstring>>,
+    io:format("send: ~p~n", [Send]),
+    gen_tcp:send(Socket, Send),
+    loop(Socket).
 
 %%--------------------------------------------------------------------
 %% @doc message/1 craft a message to send to other nodes
@@ -76,3 +109,22 @@ send_message(Node, Message) ->
 -spec forward(Message :: term()) -> list().
 forward(Message) ->
     [ send_message(Node, Message) || Node <- erlang:nodes() ].
+
+%%--------------------------------------------------------------------
+%% @doc convert/1 function take BERT message as binary string, extract
+%%      size and convert term, returning it. If something goes wrong
+%%      we catch and return an error with the reason.
+%%
+%%      See also:
+%%      <ul><li>[http://bert-rpc.org/]</li>
+%%      </ul>
+%% @end
+%%--------------------------------------------------------------------
+-spec convert(Bitstring :: bitstring()) 
+             -> {integer(), term()} | {error, atom()}.
+convert(<<Size:32, Message/bitstring>>) ->
+    try erlang:binary_to_term(Message) of
+        Term -> {Size, Term}
+    catch
+         _:_ -> {error, not_bert}
+    end.

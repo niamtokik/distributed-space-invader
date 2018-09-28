@@ -116,8 +116,10 @@ handle_cast({unregister, Pid}, State)
     #{ registered := Registered } = State,
     Removed = [ X || X <- Registered, X =/= Pid ],
     {noreply, State#{ registered => Removed }};
-handle_cast({_Pid, Node, Message}, State) ->
-    io:format("received message ~p from ~p~n", [Message, Node]),
+handle_cast({Pid, Node, Message}, State) ->
+    io:format("received message ~p from ~p/~p~n", [Message, Pid, Node]),
+    #{ registered := Registered } = State,
+    [ X ! {message, Message} || X <- Registered ],
     {noreply, State};
 handle_cast(_Else, State) ->
     io:format("handle_cast: received ~p~n", [_Else]),
