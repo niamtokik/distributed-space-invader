@@ -75,11 +75,11 @@ tcp_closed(Socket, Port)
 %% @end
 %%--------------------------------------------------------------------
 from_relay(Socket, Message) ->
-    Convert = erlang:term_to_binary(Message),
-    Size = erlang:byte_size(Convert),
-    Send = <<Size:32, Convert/bitstring>>,
-    io:format("size: ~p, send: ~p~n", [Size, Send]),
-    gen_tcp:send(Socket, Send),
+    % Convert = erlang:term_to_binary(Message),
+    % Size = erlang:byte_size(Convert),
+    % Send = <<Size:32, Convert/bitstring>>,
+    % io:format("size: ~p, send: ~p~n", [Size, Send]),
+    gen_tcp:send(Socket, Message),
     loop(Socket).
 
 %%--------------------------------------------------------------------
