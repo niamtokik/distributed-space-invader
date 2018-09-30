@@ -10,17 +10,33 @@ server will forward them to all other notes.
 
 ## Play with a shell
 
-    $ rebar3 shell
+If you want to see what's going on in the VM during playing:
+
+    $ rebar3 shell -name ${name}@${ip}
+    > application:start(spaceinvader).
+    > net_kernel:connect_node('othernode@otherip').
 
 ## Start it manually
 
+If you want to create a full executable file, you can create an
+escript file with escriptize command
+
     $ rebar3 escriptize
+    $ ./_build/bin/spaceinvader
 
 ## Generate documentation
+
+A bunch of documentation was created, you can access them in directory
+`doc` after compiling it with this command:
 
     $ rebar3 edoc
 
 ## Haskell Space Invader Client
+
+Our own client is actually present here:
+
+    $ stack build
+    $ stack exec game "username"
 
  * https://github.com/lambda-rennes/space-invaders
 
